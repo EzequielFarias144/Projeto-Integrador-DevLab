@@ -3,16 +3,22 @@ from django.core.exceptions import ValidationError
 import datetime
 
 class Projeto(models.Model):
+    # Atributos básicos
     nome = models.CharField(max_length=200)
     descricao = models.CharField(max_length=2000) 
+    
+    # Aqui temos os campos de datas - eu coloquei para que a data_inicio use a data atual como padrão
     data_inicio = models.DateField(default=datetime.date.today)
+    # enquanto a data_fim_prevista é opcional (o null=True permite None no DB, já o blank=True permite vazio em formulários)
     data_fim_prevista = models.DateField(null=True, blank=True)
     
+    # Aqui é as constantes para os status do projeto
     STATUS_NAO_INICIADO = "nao_iniciado"
     STATUS_ANDAMENTO = "em_andamento"
     STATUS_CONCLUIDO = "concluido"
     STATUS_CANCELADO = "cancelado"
 
+    # Aqui é o choices para o campo status - ele é quem define os valores permitidos e seus labels(de acordo com o que entendi pela documentação)
     STATUS_CHOICES = [
         (STATUS_NAO_INICIADO, "Não Iniciado"),
         (STATUS_ANDAMENTO, "Em Andamento"),
@@ -22,13 +28,27 @@ class Projeto(models.Model):
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default=STATUS_NAO_INICIADO)
     
     def clean(self):
+        #Esse clean vai validar os dados do modelo antes de salvar.
+        #eu coloquei por enquanto as seguintes validações:
+        #Garante que data_fim_prevista não seja anterior à data_inicio
+        #e se caso aconteça de alguem botar a data errada em data_fim_prevista ele lança
+        #Raises:
+        #    ValidationError
         if self.data_fim_prevista and self.data_inicio and self.data_fim_prevista < self.data_inicio:
             raise ValidationError({"data_fim_prevista": ("A data para o fim deste projeto não pode ser menor que a data de início. Por favor, troque a data")})
             
     def save(self, *args, **kwargs):
+        #Aqui ele sobrescreve o método save para incluir validação automática.
+        #Args:
+        #    validate: Se True (padrão), executa full_clean() antes de salvar.
+        #             Pode ser desabilitado passando validate=False para contornar #validações.
+        
+        # Aqui ele remove o parâmetro 'validate' dos kwargs (o padrão: True)
         validate = kwargs.pop('validate', True)
+        # Aqui se validate for True, executa todas as validações (incluindo clean())
         if validate:
             self.full_clean()
+        # E aqui ele chama o método save original do Django
         super().save(*args, **kwargs)
     
     def __str__(self):
