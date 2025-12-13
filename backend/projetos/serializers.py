@@ -8,7 +8,7 @@ class ProjetoSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def validate(self, data):
-        # Aqui ele obtém data_inicio dos dados recebidos ou da instância existente (para updates)
+        # Aqui ele obtém data_inicio dos dados recebidos ou da instância existente
         data_inicio = data.get('data_inicio', getattr(self.instance, 'data_inicio', None))
         # Aqui ele pega data_fim_prevista dos dados recebidos ou da instância existente 
         data_fim = data.get('data_fim_prevista', getattr(self.instance, 'data_fim_prevista', None))

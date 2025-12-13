@@ -39,13 +39,10 @@ class Projeto(models.Model):
             
     def save(self, *args, **kwargs):
         #Aqui ele sobrescreve o método save para incluir validação automática.
-        #Args:
-        #    validate: Se True (padrão), executa full_clean() antes de salvar.
-        #             Pode ser desabilitado passando validate=False para contornar #validações.
         
         # Aqui ele remove o parâmetro 'validate' dos kwargs (o padrão: True)
         validate = kwargs.pop('validate', True)
-        # Aqui se validate for True, executa todas as validações (incluindo clean())
+        # Aqui se validate for True, executa todas as validações
         if validate:
             self.full_clean()
         # E aqui ele chama o método save original do Django
