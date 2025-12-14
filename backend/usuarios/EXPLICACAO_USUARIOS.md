@@ -13,6 +13,21 @@ POST /api/token/ → login com username e password.
 
 POST /api/token/refresh/ → renovar token de acesso.
 
+# Exemplo de Request
+POST /api/token/
+Content-Type: application/json
+
+{
+  "username": "User",
+  "password": "senha"
+}
+
+# Exemplo de Response
+{
+  "refresh": "eyJ0eXAiOiJKV1QiLCJh...",
+  "access": "eyJ0eXAiOiJKV1QiLCJh..."
+}
+
 # Perfis de Usuário
 Administrador / Coordenador
 Criado via createsuperuser.
