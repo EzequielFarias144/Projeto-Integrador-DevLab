@@ -1,6 +1,50 @@
 from django.db import models
+from django.conf import settings
 from django.core.exceptions import ValidationError
 import datetime
+
+
+class ParticipacaoProjeto(models.Model):
+    usuario = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        help_text="Usuário participante do projeto"
+    )
+    
+    projeto = models.ForeignKey(
+        'Projeto',
+        on_delete=models.CASCADE,
+        help_text="Projeto do qual o usuário participa"
+    )
+    
+    # Campos de controle da participação
+    data_entrada = models.DateField(
+        auto_now_add=True,
+        help_text="Data em que o usuário entrou no projeto"
+    )
+    
+    data_saida = models.DateField(
+        null=True,
+        blank=True,
+        help_text="Data em que o usuário saiu do projeto"
+    )
+    
+    ativo = models.BooleanField(
+        default=True,
+        help_text="Indica se o usuário ainda está ativo no projeto"
+    )
+    
+    class Meta:
+        verbose_name = "Participação em Projeto"
+        verbose_name_plural = "Participações em Projetos"
+        # Isso daqui vair garantir que um usuário não possae ter participações duplicadas no mesmo projeto
+        unique_together = ['usuario', 'projeto']
+        ordering = ['-data_entrada']
+    
+    def __str__(self):
+        status = "Ativo" if self.ativo else "Inativo"
+        return f"{self.usuario.username} em {self.projeto.nome} ({status})"
+
 
 class Projeto(models.Model):
     # Atributos básicos
@@ -11,6 +55,14 @@ class Projeto(models.Model):
     data_inicio = models.DateField(default=datetime.date.today)
     # enquanto a data_fim_prevista é opcional (o null=True permite None no DB, já o blank=True permite vazio em formulários)
     data_fim_prevista = models.DateField(null=True, blank=True)
+    
+    participantes = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through='ParticipacaoProjeto', 
+        related_name='projetos',
+        blank=True,
+        help_text="Usuários que participam nesse projeto"
+    )
     
     # Aqui é as constantes para os status do projeto
     STATUS_NAO_INICIADO = "nao_iniciado"
