@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { projetosService } from "@/services/api";
+import { projetosService, Projeto } from "@/services/api";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { LogIn, Calendar, Users } from "lucide-react";
-
-interface Projeto {
-  id: number;
-  nome: string;
-  descricao: string;
-  data_inicio: string;
-  data_fim_prevista: string;
-  status: string;
-  is_public: boolean;
-}
 
 const PublicProjects = () => {
   const navigate = useNavigate();

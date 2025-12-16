@@ -26,7 +26,13 @@ export const useEquipes = () => {
 
   const createEquipe = async (equipe: Partial<Equipe>) => {
     try {
-      const novaEquipe = await equipesService.create(equipe);
+      const novaEquipe = await equipesService.create({
+        nome: equipe.nome!,
+        descricao: equipe.descricao,
+        projeto: equipe.projeto!,
+        lider: equipe.lider,
+        membros: equipe.membros
+      });
       setEquipes((prev) => [...prev, novaEquipe]);
       return { success: true, data: novaEquipe };
     } catch (err: any) {
@@ -61,21 +67,6 @@ export const useEquipes = () => {
       return {
         success: false,
         error: err.response?.data || 'Erro ao deletar equipe',
-      };
-    }
-  };
-
-  const definirLider = async (id: number, liderId: number) => {
-    try {
-      const equipeAtualizada = await equipesService.definirLider(id, liderId);
-      setEquipes((prev) =>
-        prev.map((e) => (e.id === id ? equipeAtualizada : e))
-      );
-      return { success: true, data: equipeAtualizada };
-    } catch (err: any) {
-      return {
-        success: false,
-        error: err.response?.data || 'Erro ao definir líder',
       };
     }
   };
