@@ -28,7 +28,7 @@ const Projects = () => {
     }
   }, [navigate]);
 
-  const { projetos, loading, createProjeto, updateProjeto, deleteProjeto } = useProjetos();
+  const { projetos, loading, deleteProjeto } = useProjetos();
   const user = authService.getUser();
   const isCoordenador = user?.tipo_usuario === 'coordenador';
 

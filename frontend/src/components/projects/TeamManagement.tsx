@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Users, Crown, GraduationCap, UserPlus } from "lucide-react";
 import { toast } from "sonner";
-import api, { projetosService, usuariosService, equipesService } from "@/services/api";
+import { projetosService, usuariosService, equipesService } from "@/services/api";
 
 interface TeamManagementProps {
   projetoId: number;

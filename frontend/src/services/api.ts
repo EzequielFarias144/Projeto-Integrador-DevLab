@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// URL base da API Django
-const API_BASE_URL = 'http://localhost:8000/api';
+// URL base da API Django - usa variável de ambiente ou fallback para localhost
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 // Instância do axios com configuração base
 const api = axios.create({
@@ -98,6 +98,7 @@ export const authService = {
     email: string;
     password: string;
     nome: string;
+    cpf?: string;
     tipo_usuario?: string;
   }): Promise<User> {
     const response = await axios.post(`${API_BASE_URL}/usuarios/registro/`, userData);
