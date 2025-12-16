@@ -34,6 +34,11 @@ class ParticipacaoProjeto(models.Model):
         help_text="Indica se o usuário ainda está ativo no projeto"
     )
     
+    is_leader = models.BooleanField(
+        default=False,
+        help_text="Indica se o usuário é o líder da equipe do projeto"
+    )
+    
     class Meta:
         verbose_name = "Participação em Projeto"
         verbose_name_plural = "Participações em Projetos"
@@ -64,6 +69,29 @@ class Projeto(models.Model):
         help_text="Usuários que participam nesse projeto"
     )
     
+    professor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='projetos_orientados',
+        help_text="Professor orientador do projeto"
+    )
+    
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='projetos_criados',
+        help_text="Coordenador que criou o projeto"
+    )
+    
+    is_public = models.BooleanField(
+        default=False,
+        help_text="Se True, o projeto será visível para visitantes sem autenticação"
+    )
+    
     # Aqui é as constantes para os status do projeto
     STATUS_NAO_INICIADO = "nao_iniciado"
     STATUS_ANDAMENTO = "em_andamento"
@@ -86,6 +114,12 @@ class Projeto(models.Model):
         #e se caso aconteça de alguem botar a data errada em data_fim_prevista ele lança
         #Raises:
         #    ValidationError
+        
+        # Validar que data_inicio não seja menor que hoje
+        if self.data_inicio and self.data_inicio < datetime.date.today():
+            raise ValidationError({"data_inicio": ("A data de início não pode ser menor que a data de hoje.")})
+        
+        # Validar que data_fim_prevista não seja anterior à data_inicio
         if self.data_fim_prevista and self.data_inicio and self.data_fim_prevista < self.data_inicio:
             raise ValidationError({"data_fim_prevista": ("A data para o fim deste projeto não pode ser menor que a data de início. Por favor, troque a data")})
             
