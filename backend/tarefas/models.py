@@ -21,6 +21,14 @@ class Tarefas(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='nao_iniciado')
     prioridade = models.IntegerField(choices=PRIORIDADE_CHOICES, default=2)
     
+    projeto = models.ForeignKey(
+        'projetos.Projeto',
+        on_delete=models.CASCADE,
+        related_name='tarefas',
+        null=True,
+        blank=True
+    )
+    
     equipe = models.ForeignKey(
         'equipe.Equipe',
         on_delete=models.CASCADE,
