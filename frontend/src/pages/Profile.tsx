@@ -94,8 +94,6 @@ const Profile = () => {
       
       // Atualizar usuário no localStorage
       const updatedUser = response.usuario;
-      const currentToken = localStorage.getItem('access_token');
-      const currentRefresh = localStorage.getItem('refresh_token');
       
       localStorage.setItem('user', JSON.stringify(updatedUser));
       

@@ -1,0 +1,29 @@
+services:
+  # Backend Django
+  - type: web
+    name: devlab-backend
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn DevLab.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: devlab-db
+          property: connectionString
+
+  # Banco de dados PostgreSQL
+  - type: psgql
+    name: devlab-db
+    plan: free
+    databaseName: devlab
+    user: devlab

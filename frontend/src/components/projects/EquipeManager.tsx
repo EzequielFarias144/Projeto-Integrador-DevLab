@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { equipesService, usuariosService, type Equipe, type User } from "@/services/api";
+import { equipesService, type Equipe } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
