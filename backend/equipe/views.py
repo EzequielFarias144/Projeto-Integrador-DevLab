@@ -34,16 +34,17 @@ class EquipeViewSet(viewsets.ModelViewSet):
         user = self.request.user
         queryset = super().get_queryset()
 
-        if user.is_coordenador:
-            return queryset
-
-        # Filtrar por projeto (se especificado)
+        # Filtrar por projeto (se especificado) - PARA TODOS OS USUÁRIOS
         projeto_id = self.request.query_params.get('projeto')
         if projeto_id:
             queryset = queryset.filter(projeto_id=projeto_id)
 
-        # Usuários comuns veem apenas equipes de seus projetos
-        return queryset.filter(projeto__participantes=user).distinct()
+        # Se não especificou projeto, aplicar filtro por tipo de usuário
+        elif user.tipo_usuario != 'coordenador':
+            # Usuários comuns veem apenas equipes de seus projetos
+            queryset = queryset.filter(projeto__participantes=user).distinct()
+
+        return queryset
 
     @action(detail=True, methods=['put', 'patch'], url_path='definir-lider')
     def definir_lider(self, request, pk=None):
