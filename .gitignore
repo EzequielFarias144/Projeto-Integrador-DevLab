@@ -1,2 +1,72 @@
+# =============================
+# PYTHON / DJANGO (Backend)
+# =============================
+
+# Ambiente virtual
 backend/meuAmbiente/
+backend/venv/
+backend/env/
+*.pyc
+*.pyo
+__pycache__/
+*.so
+
+# Django
+backend/*.log
+backend/media/
+backend/staticfiles/
+backend/static/
+
+# Variáveis de ambiente
+backend/.env
+backend/.env.local
+
+# =============================
+# NODE / REACT / VITE (Frontend)
+# =============================
+
+# Dependências
+frontend/node_modules/
+frontend/package-lock.json
+frontend/yarn.lock
+frontend/pnpm-lock.yaml
+
+# Build
+frontend/dist/
+frontend/build/
+frontend/.vite/
+
+# Logs
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Variáveis de ambiente
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# =============================
+# IDEs e Editores
+# =============================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# =============================
+# Outros
+# =============================
+
+# Testes (se quiser ignorar)
 backend/projetos/tests.py
+backend/tarefas/tests.py
+*.coverage
+.coverage
+htmlcov/
