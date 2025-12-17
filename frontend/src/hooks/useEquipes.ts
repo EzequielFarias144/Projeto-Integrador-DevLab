@@ -79,6 +79,5 @@ export const useEquipes = () => {
     createEquipe,
     updateEquipe,
     deleteEquipe,
-    definirLider,
   };
 };
