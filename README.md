@@ -212,9 +212,8 @@ Lista de dependências do projeto (pacotes Python necessários para rodar).
 
 ## Diagrama de Banco de Dados
 
-![Diagrama de Banco de Dados](./docs/database_diagram.png)
+![Diagrama de Banco de Dados](./docs/DER.png)
 
-> **Descrição:** Inclua um diagrama ER (Entidade-Relacionamento) gerado por ferramentas como `django-extensions` ou `pygraphviz`. Descreva as principais entidades, relacionamentos e campos críticos.
 
 ## Documentação da API
 Documentação da API
@@ -318,6 +317,7 @@ Siga os passos abaixo para configurar o ambiente local.
 
 3. **Instale as dependências:**
    ```bash
+   cd backend
    pip install -r requirements.txt
    ```
 
