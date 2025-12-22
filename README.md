@@ -333,4 +333,7 @@ Siga os passos abaixo para configurar o ambiente local.
    python manage.py runserver
    ```
 
+## Link do Vercel e Render
 
+- **Vercel:** https://projeto-integrador-dev-lab.vercel.app/
+- **Render:** https://projeto-integrador-devlab.onrender.com  
